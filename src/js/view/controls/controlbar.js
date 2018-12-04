@@ -116,6 +116,7 @@ export default class Controlbar {
         this._api = _api;
         this._model = _model;
         this._isMobile = OS.mobile;
+        this._volumeAnnouncer = _accessibilityContainer.querySelector('.jw-volume-update');
         const localization = _model.get('localization');
         const timeSlider = new TimeSlider(_model, _api, _accessibilityContainer);
         let volumeTooltip;
@@ -366,7 +367,9 @@ export default class Controlbar {
             toggleClass(volumeTooltipEl, 'jw-off', muted);
             toggleClass(volumeTooltipEl, 'jw-full', vol >= 75 && !muted);
             setAttribute(volumeTooltipEl, 'aria-valuenow', volume);
-            setAttribute(volumeTooltipEl, 'aria-valuetext', `Volume ${volume}%`);
+            const ariaText = `Volume ${volume}%`;
+            setAttribute(volumeTooltipEl, 'aria-valuetext', ariaText);
+            this._volumeAnnouncer.textContent = ariaText;
         }
     }
 
